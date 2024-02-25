@@ -1,4 +1,4 @@
-name: Deploy Nginx
+name: Deploy explainerdashboard
 
 on:
   push:
@@ -24,14 +24,14 @@ jobs:
     - name: build and push the docker image
       env:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
-      run: |
+      run: 
         gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/home-credit-repo/explainer-dashboard-demo:latest .
-        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/home-credit-repo/explainer-dashboard-demo:latest
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/home-credit-repo/explainerdashboarddemo:latest .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/home-credit-repo/explainerdashboarddemo:latest
     - name: deploy to gke
       env:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
-      run: |
+      run: 
         gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1
         sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" resources.yaml
         kubectl apply -f resources.yaml

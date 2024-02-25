@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: explainerdashboard
+spec:
+  type: LoadBalancer
+  selector:
+    app: explainerdashboard
+  ports:
+  - port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: explainerdashboard
+  labels:
+    app: explainerdashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: explainerdashboard
+  template:
+    metadata:
+      labels:
+        app: explainerdashboard
+    spec:
+      containers:
+      - name: explainerdashboard
+        image: us-central1-docker.pkg.dev/GOOGLE_PROJECT/home-credit-repo/explainerdashboard:latest
